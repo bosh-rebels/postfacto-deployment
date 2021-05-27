@@ -1,8 +1,8 @@
 ---
 resources:
-name: postfacto-deployment
-type: git
-source: {uri: "https://github.com/bosh-rebels/postfacto-deployment.git"}
+- name: postfacto-deployment
+  type: git
+  source: {uri: "https://github.com/bosh-rebels/postfacto-deployment.git"}
 
 jobs:
 - name: job
