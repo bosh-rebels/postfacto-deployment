@@ -1,0 +1,16 @@
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: ruby
+    tag: 2.7.2
+
+inputs:
+  - name: postfacto-deployment
+
+run:
+  path: postfacto-deployment/package.sh
+
+outputs:
+  - name: package

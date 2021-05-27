@@ -1,0 +1,27 @@
+---
+resources:
+name: postfacto-deployment
+type: git
+source: {uri: "https://github.com/bosh-rebels/postfacto-deployment.git"}
+
+jobs:
+- name: job
+  public: true
+  plan:
+  - get: postfacto-deployment
+  - task: package
+    file: postfacto-deployment/tasks/package.yml
+  - task: deploy
+    config:
+      inputs:
+        - name: package
+      platform: linux
+      image: governmentpaas/cf-uaac
+      run:
+        path: bash
+        args:
+          - -exc
+          - |
+            cd package/tas
+            cf target -o system -s team-tools
+            ADMIN_EMAIL=((admin_email)) ADMIN_PASSWORD=((admin_password)) ./deploy.sh ((app_name))
