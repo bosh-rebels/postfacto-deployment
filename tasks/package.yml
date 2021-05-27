@@ -10,7 +10,7 @@ inputs:
   - name: postfacto-deployment
 
 run:
-  path: postfacto-deployment/package.sh
+  path: postfacto-deployment/tasks/package.sh
 
 outputs:
   - name: package
