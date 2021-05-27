@@ -1,6 +1,8 @@
 platform: linux
 
-image: governmentpaas/cf-uaac
+image_resource:
+  type: registry-image
+  source: {repository: governmentpaas/cf-uaac}
 
 inputs:
   - name: postfacto-deployment
