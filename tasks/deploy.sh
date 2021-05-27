@@ -2,8 +2,6 @@
 
 set -euf -o pipefail
 
-# cd package/tas
-# cf target -o system -s team-tools
-# ./deploy.sh $APP_NAME
-
-echo ((hello))
+cd package/tas
+cf target -o system -s team-tools
+./deploy.sh $APP_NAME
