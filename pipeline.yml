@@ -12,16 +12,9 @@ jobs:
   - task: package
     file: postfacto-deployment/tasks/package.yml
   - task: deploy
-    config:
-      inputs:
-        - name: package
-      platform: linux
-      image: governmentpaas/cf-uaac
-      run:
-        path: bash
-        args:
-          - -exc
-          - |
-            cd package/tas
-            cf target -o system -s team-tools
-            ADMIN_EMAIL=((admin_email)) ADMIN_PASSWORD=((admin_password)) ./deploy.sh ((app_name))
+    file: postfacto-deployment/tasks/deploy.yml
+    params:
+      ADMIN_EMAIL: ((admin_email))
+      ADMIN_PASSWORD: ((admin_password))
+      APP_NAME: ((app_name))
+      ENABLE_ANALYTICS: false

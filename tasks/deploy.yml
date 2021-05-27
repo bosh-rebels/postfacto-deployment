@@ -1,0 +1,16 @@
+platform: linux
+
+image: governmentpaas/cf-uaac
+
+inputs:
+  - name: postfacto-deployment
+  - name: package
+
+params:
+  ADMIN_EMAIL:
+  ADMIN_PASSWORD:
+  APP_NAME:
+  ENABLE_ANALYTICS:
+
+run:
+  path: postfacto-deployment/tasks/deploy.sh
