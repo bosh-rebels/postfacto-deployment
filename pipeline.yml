@@ -4,17 +4,60 @@ resources:
   type: git
   source: {uri: "https://github.com/bosh-rebels/postfacto-deployment.git"}
 
+- name: postfacto-docker-image
+  type: docker-image
+  source:
+    repository: ((repository))
+    tag: 'v1'
+    username: ((harbor_username))
+    password: ((harbor_password))
+    insecure_registries: [((insecure-registry))]
+
+- name: rootfs-version
+  type: semver
+  source:
+    initial_version: 0.0.0
+    driver: s3
+    bucket: ((s3_bucket))
+    key: "rootfs/version"
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
+    endpoint: ((s3_endpoint))
+    region_name: ((s3_region))
+
+- name: package-resource-tarball
+  type: s3
+  source:
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
+    endpoint: ((s3_endpoint))
+    region_name: ((s3_region))
+    bucket: ((s3_bucket))
+    regexp: postfacto-tarball/postfacto-package-*.tgz
+
 jobs:
-- name: job
-  public: true
+- name: create-package-tarball
   plan:
   - get: postfacto-deployment
-  - task: package
-    file: postfacto-deployment/tasks/package.yml
-  - task: deploy
-    file: postfacto-deployment/tasks/deploy.yml
-    params:
-      ADMIN_EMAIL: ((admin_email))
-      ADMIN_PASSWORD: ((admin_password))
-      APP_NAME: ((app_name))
-      ENABLE_ANALYTICS: false
+  - get: postfacto-docker-image
+
+  - task: create-tarball
+    image: postfacto-docker-image
+    file: postfacto-deployment/tasks/tarball.yml
+    output_mapping:
+      - release-package-tarball: output
+
+  - put: package-resource-tarball
+    params: {file: release-package-tarball/postfacto-package-*}
+
+#- name: deploy-postfacto
+#    plan:
+#    - get: postfacto-deployment
+#      passed: [create-package-tarball]
+#    - task: deploy
+#      file: postfacto-deployment/tasks/deploy.yml
+#      params:
+#        ADMIN_EMAIL: ((admin_email))
+#        ADMIN_PASSWORD: ((admin_password))
+#        APP_NAME: ((app_name))
+#        ENABLE_ANALYTICS: false

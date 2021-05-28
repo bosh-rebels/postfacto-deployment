@@ -1,12 +1,16 @@
 platform: linux
 
 image_resource:
-  type: registry-image
-  source: {repository: governmentpaas/cf-uaac}
+  type: docker-image
+  source: 
+    repository: registry-ukdev01.paas.santanderuk.dev.corp/paymentshubpcf/postfacto
+    tag: 'v1'
+    username: ((harbor_username))
+    password: ((harbor_password))
+    insecure_registries: ["registry-ukdev01.paas.santanderuk.dev.corp"]
 
 inputs:
   - name: postfacto-deployment
-  - name: package
 
 params:
   ADMIN_EMAIL:

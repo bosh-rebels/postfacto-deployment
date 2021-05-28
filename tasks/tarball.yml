@@ -1,0 +1,11 @@
+platform: linux
+
+inputs:
+  - name: postfacto-deployment
+  - name: postfacto-docker-image
+  - name: rootfs-version
+outputs:
+  - name: output
+
+run:
+  path: postfacto-deployment/tasks/create-tarball.sh
