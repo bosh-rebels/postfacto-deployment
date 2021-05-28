@@ -4,7 +4,7 @@ set -euf -o pipefail
 
 apt update
 apt install -y nodejs
-wget -O package.zip --no-check-certificate http://github.com/pivotal/postfacto/releases/download/4.3.11/package.zip
+wget -O package.zip https://github.com/pivotal/postfacto/releases/download/4.3.11/package.zip
 unzip package.zip
 cd package/assets
 rm -rf Gemfile.lock
