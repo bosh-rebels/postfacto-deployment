@@ -13,13 +13,13 @@ resources:
     password: ((harbor_password))
     insecure_registries: [((insecure-registry))]
 
-- name: rootfs-version
+- name: postfacto-version
   type: semver
   source:
     initial_version: 0.0.0
     driver: s3
     bucket: ((s3_bucket))
-    key: "rootfs/version"
+    key: "postfacto/version"
     access_key_id: ((s3_access_key_id))
     secret_access_key: ((s3_secret_access_key))
     endpoint: ((s3_endpoint))
@@ -40,12 +40,12 @@ jobs:
   plan:
   - get: postfacto-deployment
   - get: postfacto-docker-image
+  - get: postfacto-version
 
   - task: create-tarball
     image: postfacto-docker-image
     file: postfacto-deployment/tasks/tarball.yml
-    output_mapping:
-      - release-package-tarball: output
+    output_mapping: {release-package-tarball: output}
 
   - put: package-resource-tarball
     params: {file: release-package-tarball/postfacto-package-*}

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
-version=$(cat rootfs-version/version)
+version=$(cat postfacto-version/version)
 digest=$(cat postfacto-docker-image/digest)
 
 echo "Creating postfacto package tarball with digest ${digest}..."

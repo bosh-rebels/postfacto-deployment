@@ -3,7 +3,7 @@ platform: linux
 inputs:
   - name: postfacto-deployment
   - name: postfacto-docker-image
-  - name: rootfs-version
+  - name: postfacto-version
 outputs:
   - name: output
 
