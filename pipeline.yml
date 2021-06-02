@@ -7,7 +7,7 @@ resources:
 - name: postfacto-docker-image
   type: docker-image
   source:
-    repository: ((repository))
+    repository: ((docker-image-repository))
     tag: 'v1'
     username: ((harbor_username))
     password: ((harbor_password))
@@ -16,24 +16,33 @@ resources:
 - name: postfacto-version
   type: semver
   source:
-    initial_version: 0.0.0
     driver: s3
-    bucket: ((s3_bucket))
+    initial_version: 0.0.0
     key: "postfacto/version"
+    bucket: ((s3_bucket))
     access_key_id: ((s3_access_key_id))
     secret_access_key: ((s3_secret_access_key))
     endpoint: ((s3_endpoint))
     region_name: ((s3_region))
 
-- name: package-resource-tarball
+- name: package-tarball
   type: s3
   source:
+    bucket: ((s3_bucket))
     access_key_id: ((s3_access_key_id))
     secret_access_key: ((s3_secret_access_key))
     endpoint: ((s3_endpoint))
     region_name: ((s3_region))
-    bucket: ((s3_bucket))
-    regexp: postfacto-tarball/postfacto-package-*.tgz
+    regexp: "release-package-tarball/postfacto-package-(.*).tgz"
+
+#- name: rootfs
+#  type: docker-image
+#  source:
+#    repository: ((rootfs-repository-image))
+#    tag: latest
+#    username: ((harbor_username))
+#    password: ((harbor_password))
+#    insecure_registries: [ ((insecure-registry))]
 
 jobs:
 - name: create-package-tarball
@@ -45,19 +54,30 @@ jobs:
   - task: create-tarball
     image: postfacto-docker-image
     file: postfacto-deployment/tasks/tarball.yml
-    output_mapping: {release-package-tarball: output}
+    output_mapping: {output: release-package-tarball}
 
-  - put: package-resource-tarball
-    params: {file: release-package-tarball/postfacto-package-*}
+  - put: package-tarball
+    params:
+     file: "release-package-tarball/postfacto-package-*.tgz"
+     resource: package-tarball
 
+#- name: check-services
+#  plan:
+#    - get: rootfs
+#
 #- name: deploy-postfacto
-#    plan:
-#    - get: postfacto-deployment
-#      passed: [create-package-tarball]
-#    - task: deploy
-#      file: postfacto-deployment/tasks/deploy.yml
-#      params:
-#        ADMIN_EMAIL: ((admin_email))
-#        ADMIN_PASSWORD: ((admin_password))
-#        APP_NAME: ((app_name))
-#        ENABLE_ANALYTICS: false
+#  plan:
+#  - get: postfacto-deployment
+#  - get: package-tarball
+#    params:
+#      unpack: true
+#    passed: [create-package-tarball]
+#
+#  - task: deploy
+#    image: package-tarball
+#    file: postfacto-deployment/tasks/deploy.yml
+#    params:
+#      ADMIN_EMAIL: ((admin_email))
+#      ADMIN_PASSWORD: ((admin_password))
+#      APP_NAME: ((app_name))
+#      ENABLE_ANALYTICS: false

@@ -2,7 +2,6 @@ platform: linux
 
 inputs:
   - name: postfacto-deployment
-  - name: postfacto-docker-image
   - name: postfacto-version
 outputs:
   - name: output
