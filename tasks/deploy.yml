@@ -9,6 +9,9 @@ params:
   ADMIN_PASSWORD:
   APP_NAME:
   ENABLE_ANALYTICS:
+  OPSMAN_DOMAIN_OR_IP_ADDRESS: 
+  OPSMAN_USERNAME: 
+  OPSMAN_PASSWORD: 
 
 run:
   path: postfacto-deployment/tasks/deploy.sh

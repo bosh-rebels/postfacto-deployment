@@ -58,26 +58,26 @@ jobs:
 
   - put: package-tarball
     params:
-     file: "release-package-tarball/postfacto-package-*.tgz"
-     resource: package-tarball
+      file: "release-package-tarball/postfacto-package-*.tgz"
+      resource: package-tarball
 
-#- name: check-services
-#  plan:
-#    - get: rootfs
-#
-#- name: deploy-postfacto
-#  plan:
-#  - get: postfacto-deployment
-#  - get: package-tarball
-#    params:
-#      unpack: true
-#    passed: [create-package-tarball]
-#
-#  - task: deploy
-#    image: package-tarball
-#    file: postfacto-deployment/tasks/deploy.yml
-#    params:
-#      ADMIN_EMAIL: ((admin_email))
-#      ADMIN_PASSWORD: ((admin_password))
-#      APP_NAME: ((app_name))
-#      ENABLE_ANALYTICS: false
+- name: deploy-postfacto
+  plan:
+  - get: postfacto-deployment
+  - get: package-tarball
+    params:
+      unpack: true
+    passed: [create-package-tarball]
+  - get: rootfs
+
+  - task: deploy
+    image: package-tarball
+    file: postfacto-deployment/tasks/deploy.yml
+    params:
+      ADMIN_EMAIL: ((admin_email))
+      ADMIN_PASSWORD: ((admin_password))
+      APP_NAME: ((app_name))
+      ENABLE_ANALYTICS: false
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: ((opsman_domain_or_ip_address))
+      OPSMAN_USERNAME: ((opsman_username))
+      OPSMAN_PASSWORD: ((opsman_password))
