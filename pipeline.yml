@@ -35,14 +35,14 @@ resources:
     region_name: ((s3_region))
     regexp: "release-package-tarball/postfacto-package-(.*).tgz"
 
-#- name: rootfs
-#  type: docker-image
-#  source:
-#    repository: ((rootfs-repository-image))
-#    tag: latest
-#    username: ((harbor_username))
-#    password: ((harbor_password))
-#    insecure_registries: [ ((insecure-registry))]
+- name: rootfs
+  type: docker-image
+  source:
+    repository: ((rootfs-repository-image))
+    tag: latest
+    username: ((harbor_username))
+    password: ((harbor_password))
+    insecure_registries: [ ((insecure-registry))]
 
 jobs:
 - name: create-package-tarball
@@ -71,7 +71,7 @@ jobs:
   - get: rootfs
 
   - task: deploy
-    image: package-tarball
+    image: rootfs
     file: postfacto-deployment/tasks/deploy.yml
     params:
       ADMIN_EMAIL: ((admin_email))
