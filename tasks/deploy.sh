@@ -18,5 +18,5 @@ cf auth ${cf_user} ${cf_password}
 set -x
 
 cf target -o demo -s demo
-cd /package/tas
+cd package-tarball/package/tas/
 ./deploy.sh $APP_NAME
