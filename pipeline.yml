@@ -84,3 +84,18 @@ jobs:
       OPSMAN_DOMAIN_OR_IP_ADDRESS: ((opsman_domain_or_ip_address))
       OPSMAN_USERNAME: ((opsman_username))
       OPSMAN_PASSWORD: ((opsman_password))
+
+
+- name: delete-postfacto
+  plan:
+  - get: postfacto-deployment-code
+  - get: rootfs
+
+  - task: delete
+    image: rootfs
+    file: postfacto-deployment-code/tasks/delete.yml
+    params:
+      APP_NAME: ((app_name))
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: ((opsman_domain_or_ip_address))
+      OPSMAN_USERNAME: ((opsman_username))
+      OPSMAN_PASSWORD: ((opsman_password))
