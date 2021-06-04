@@ -6,6 +6,7 @@ RUN gem install bundler:2.2.7 && \
 RUN wget -O package.zip https://github.com/pivotal/postfacto/releases/download/4.3.11/package.zip && \
   unzip package.zip && \
   sed -i '/.*buildpack.*/d' package/tas/config/manifest.yml && \
+  sed -i '/.*buildpack.*/d' package/cf/config/manifest.yml && \
   rm -f package.zip
 
 WORKDIR /package/assets
