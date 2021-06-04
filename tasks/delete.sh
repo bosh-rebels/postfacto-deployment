@@ -18,5 +18,5 @@ cf auth ${cf_user} ${cf_password}
 set -x
 
 cf target -o demo -s demo
-cf delete -rf $APP_NAME
+cf delete -r -f $APP_NAME
 cf delete-service -f postfacto-db
