@@ -53,7 +53,7 @@ jobs:
 
   - task: create-tarball
     image: postfacto-docker-image
-    file: postfacto-deployment/tasks/tarball.yml
+    file: postfacto-deployment-code/tasks/tarball.yml
     output_mapping: {output: release-package-tarball}
 
   - put: package-tarball
@@ -75,7 +75,7 @@ jobs:
 
   - task: deploy
     image: rootfs
-    file: postfacto-deployment/tasks/deploy.yml
+    file: postfacto-deployment-code/tasks/deploy.yml
     params:
       ADMIN_EMAIL: ((admin_email))
       ADMIN_PASSWORD: ((admin_password))

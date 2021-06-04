@@ -7,4 +7,4 @@ outputs:
   - name: output
 
 run:
-  path: postfacto-deployment/tasks/create-tarball.sh
+  path: postfacto-deployment-code/tasks/create-tarball.sh

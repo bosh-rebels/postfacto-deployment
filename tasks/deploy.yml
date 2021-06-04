@@ -1,7 +1,7 @@
 platform: linux
 
 inputs:
-  - name: postfacto-deployment
+  - name: postfacto-deployment-code
   - name: package-tarball
 
 params:
@@ -14,4 +14,4 @@ params:
   OPSMAN_PASSWORD: 
 
 run:
-  path: postfacto-deployment/tasks/deploy.sh
+  path: postfacto-deployment-code/tasks/deploy.sh

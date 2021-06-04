@@ -7,10 +7,10 @@ image_resource:
     tag: 2.7.2
 
 inputs:
-  - name: postfacto-deployment
+  - name: postfacto-deployment-code
 
 run:
-  path: postfacto-deployment/tasks/package.sh
+  path: postfacto-deployment-code/tasks/package.sh
 
 outputs:
   - name: package
