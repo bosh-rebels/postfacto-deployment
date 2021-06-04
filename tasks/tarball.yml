@@ -1,7 +1,7 @@
 platform: linux
 
 inputs:
-  - name: postfacto-deployment
+  - name: postfacto-deployment-code
   - name: postfacto-version
 outputs:
   - name: output

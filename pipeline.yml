@@ -1,6 +1,6 @@
 ---
 resources:
-- name: postfacto-deployment
+- name: postfacto-deployment-code
   type: git
   source: {uri: "https://github.com/bosh-rebels/postfacto-deployment.git"}
 
@@ -45,9 +45,9 @@ resources:
     insecure_registries: [ ((insecure-registry))]
 
 jobs:
-- name: create-package-tarball
+- name: create-postfacto-tar
   plan:
-  - get: postfacto-deployment
+  - get: postfacto-deployment-code
   - get: postfacto-docker-image
   - get: postfacto-version
 
@@ -60,14 +60,17 @@ jobs:
     params:
       file: "release-package-tarball/postfacto-package-*.tgz"
       resource: package-tarball
+  - put: postfacto-version
+    params:
+      bump: patch
 
 - name: deploy-postfacto
   plan:
-  - get: postfacto-deployment
+  - get: postfacto-deployment-code
   - get: package-tarball
     params:
       unpack: true
-    passed: [create-package-tarball]
+    passed: [create-postfacto-tar]
   - get: rootfs
 
   - task: deploy
