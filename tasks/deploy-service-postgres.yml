@@ -1,0 +1,12 @@
+platform: linux
+
+inputs:
+  - name: postfacto-deployment-code
+
+params:
+  OPSMAN_DOMAIN_OR_IP_ADDRESS: 
+  OPSMAN_USERNAME: 
+  OPSMAN_PASSWORD: 
+
+run:
+  path: postfacto-deployment-code/tasks/deploy-service-postgres.sh

@@ -73,6 +73,14 @@ jobs:
     passed: [create-postfacto-tar]
   - get: rootfs
 
+  - task: deploy-service-postgres
+    image: rootfs
+    file: postfacto-deployment-code/tasks/deploy-service-postgres.yml
+    params: &opsman-creds
+      OPSMAN_DOMAIN_OR_IP_ADDRESS: ((opsman_domain_or_ip_address))
+      OPSMAN_USERNAME: ((opsman_username))
+      OPSMAN_PASSWORD: ((opsman_password))
+
   - task: deploy
     image: rootfs
     file: postfacto-deployment-code/tasks/deploy.yml
@@ -81,9 +89,7 @@ jobs:
       ADMIN_PASSWORD: ((admin_password))
       APP_NAME: ((app_name))
       ENABLE_ANALYTICS: false
-      OPSMAN_DOMAIN_OR_IP_ADDRESS: ((opsman_domain_or_ip_address))
-      OPSMAN_USERNAME: ((opsman_username))
-      OPSMAN_PASSWORD: ((opsman_password))
+      <<: *opsman-creds
 
 
 - name: delete-postfacto
@@ -96,6 +102,4 @@ jobs:
     file: postfacto-deployment-code/tasks/delete.yml
     params:
       APP_NAME: ((app_name))
-      OPSMAN_DOMAIN_OR_IP_ADDRESS: ((opsman_domain_or_ip_address))
-      OPSMAN_USERNAME: ((opsman_username))
-      OPSMAN_PASSWORD: ((opsman_password))
+      <<: *opsman-creds

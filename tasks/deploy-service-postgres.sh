@@ -4,5 +4,5 @@ set -euf -o pipefail
 source ./cf-lib.sh
 
 cf_auth "$OPSMAN_DOMAIN_OR_IP_ADDRESS" "$OPSMAN_USERNAME" "$OPSMAN_PASSWORD"
-cf delete -r -f $APP_NAME
-cf delete-service -f postfacto-db
+cf_create_service aws-rds-postgres standard postfacto-db
+cf_wait_for_service_instance postfacto-db
