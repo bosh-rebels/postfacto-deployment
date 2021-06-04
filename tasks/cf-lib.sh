@@ -79,7 +79,7 @@ function cf_wait_for_service_instance() {
       echo "Service is ready: $service_instance"
       return
     elif [ "$state" = "failed" ]; then
-      local description="$(cf curl "/v2/service_instances/$guid" | jq -r .entity.last_operation.description)")
+      local description="$(cf curl "/v2/service_instances/$guid" | jq -r .entity.last_operation.description)"
       echo "Failed to provision service: $service_instance error: $description"
       exit 1
     fi
