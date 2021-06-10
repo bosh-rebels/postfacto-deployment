@@ -15,7 +15,6 @@ cf_auth() {
   set +x
   cf api api.${cf_sys_domain} --skip-ssl-validation
   cf auth ${cf_user} ${cf_password}
-  set -x
 
   cf target -o demo -s demo
 }
@@ -60,7 +59,7 @@ function cf_create_service() {
 
 function cf_wait_for_service_instance() {
   local service_instance=${1:?service_instance null or not set}
-  local timeout=${2:-600}
+  local timeout=${2:-1200}
 
   local guid=$(cf_get_service_instance_guid "$service_instance")
   if [ -z "$guid" ]; then
@@ -90,6 +89,6 @@ function cf_wait_for_service_instance() {
       echo "Timed out waiting for service instance to provision: $service_instance"
       exit 1
     fi
-    sleep 5
+    sleep 15
   done
 }
